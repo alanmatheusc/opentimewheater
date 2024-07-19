@@ -1,0 +1,28 @@
+body, a, p, span{
+    background-color: #212529;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family:sans-serif;
+}
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+.title-container{
+    display: flex;
+    justify-content: center;
+}
+
+.title{
+    margin: 50px 0 50px 0;
+}
+
+.box{
+    width: 300px;
+    height: 200px;
+    border: 3px solid #fff;
+    margin:0 auto;
+}
