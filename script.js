@@ -34,17 +34,13 @@ function convertKelvinToCelsius(kelvin){
 
 
 function getToDoList(){
-    let input = document.getElementById('toDo').value;
-    userToDoList.push({
-        task:input
-    })
-
+    addAndClearInput();
     addToDoListAtLocalStorage(userToDoList);
     addListAtUserScreen()
     }
 
+
 function addToDoListAtLocalStorage(toDoList){
-    console.log(toDoList)
     if(localStorage.getItem('toDo') === null){
         localStorage.setItem("toDo", toDoList);
     }
@@ -56,6 +52,10 @@ function addListAtUserScreen(){
     let toDoListLocalStorage = JSON.parse(localStorage.getItem("toDo"));
     const tabela = document.getElementById('tabela');
     const tbody = tabela.querySelector('tbody');
+    tbody.innerHTML = '';
+
+
+   toDoListLocalStorage.forEach((item,index) =>{
     const tr = document.createElement('tr');
     const task = document.createElement('td');
     const deleteButton = document.createElement('td');
@@ -63,10 +63,32 @@ function addListAtUserScreen(){
     button.setAttribute('type','button')
     button.classList.add( 'btn-close', "btn-close-white");
     deleteButton.appendChild(button)
-        for(let i = 0; i<toDoListLocalStorage.length; i++){
-            task.textContent = toDoListLocalStorage[i].task
-            tr.appendChild(task)
-            tr.appendChild(deleteButton)
-             tbody.appendChild(tr);
-        }
+    task.textContent = item.task
+    tr.appendChild(task)
+    tr.appendChild(deleteButton)
+    tbody.appendChild(tr);
+
+
+    deleteButton.addEventListener('click',()=>{
+        removeTaskFromList(index)
+    })
+   })
+}
+
+function removeTaskFromList(index){
+    userToDoList.splice(index,1);
+    addToDoListAtLocalStorage(userToDoList);
+    addListAtUserScreen();
+}
+
+
+function addAndClearInput(){
+    let input = document.getElementById('toDo');
+    let inputValue = input.value;
+    if(inputValue != ""){
+        userToDoList.push({
+            task:inputValue
+        });
+    }
+        input.value = "";
 }
