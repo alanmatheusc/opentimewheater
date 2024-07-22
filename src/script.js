@@ -1,35 +1,12 @@
- (function getUserLocation(){
-     navigator.geolocation.getCurrentPosition(position =>{
-        getTimeWheaterByLocation(position.coords);
-    })
-})();
-
-let userTimeWheaterData;
 
 let userToDoList = []
+let toDoListLocalStorage = JSON.parse(localStorage.getItem("toDo"));
 
-async function getTimeWheaterByLocation(userPosition){
-try{
-    const {latitude,longitude} = userPosition;
-    await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=72857d324dc5a0d7891a61a5f0bffc48`)
-    .then(resp => resp.json())
-    .then(data =>{
-        userTimeWheaterData = data;
-        addWeatherDataToUserScreen(userTimeWheaterData);
-    })
-}catch(error){
-    console.log("User denied Location permissions");
-}
-}
-
-function addWeatherDataToUserScreen(wheaterData){
-    if(wheaterData === null){
-        return;
-    }
-}
-
-function convertKelvinToCelsius(kelvin){
-    return kelvin - 273,15;
+if(localStorage.getItem("toDo") !== null){
+    window.addEventListener("load", (event) => {
+        userToDoList = toDoListLocalStorage
+        addListAtUserScreen();
+      });
 }
 
 
@@ -40,22 +17,21 @@ function getToDoList(){
     }
 
 
+
 function addToDoListAtLocalStorage(toDoList){
     if(localStorage.getItem('toDo') === null){
-        localStorage.setItem("toDo", toDoList);
+        localStorage.setItem("toDo", JSON.stringify(toDoList));
     }
-    localStorage.setItem("toDo",JSON.stringify(toDoList));
+    localStorage.setItem("toDo",JSON.stringify(userToDoList));
 }
 
 
 function addListAtUserScreen(){
-    let toDoListLocalStorage = JSON.parse(localStorage.getItem("toDo"));
     const tabela = document.getElementById('tabela');
     const tbody = tabela.querySelector('tbody');
     tbody.innerHTML = '';
 
-
-   toDoListLocalStorage.forEach((item,index) =>{
+    toDoListLocalStorage.forEach((item,index) =>{
     const tr = document.createElement('tr');
     const task = document.createElement('td');
     const deleteButton = document.createElement('td');
@@ -76,6 +52,8 @@ function addListAtUserScreen(){
 }
 
 function removeTaskFromList(index){
+    console.log(index)
+    console.log(userToDoList)
     userToDoList.splice(index,1);
     addToDoListAtLocalStorage(userToDoList);
     addListAtUserScreen();
@@ -90,5 +68,6 @@ function addAndClearInput(){
             task:inputValue
         });
     }
-        input.value = "";
+    input.value = "";
 }
+
