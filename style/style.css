@@ -9,14 +9,11 @@ body, a, p, span{
     margin: 0;
     padding: 0;
     border: 0;
+    color: #fff;
 }
 .title-container{
     display: flex;
     justify-content: center;
-}
-
-.title{
-    color: #fff;
 }
 
 .container{
@@ -31,4 +28,14 @@ body, a, p, span{
 #tabela{
     width: 80%;
     margin: 0 auto;
+}
+
+.time{
+    width: 50%;
+    margin: 0 auto;
+}
+
+.main-todolist{
+    width: 100vw;
+    height: 100vh;
 }
